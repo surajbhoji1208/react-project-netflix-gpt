@@ -1,8 +1,10 @@
 import {React, useRef, useState } from 'react'
 import { Header } from './Header'
+import { ValidateForm } from '../utils/Validation'
 
 export const Login = () => {
   const [isSignInform, setIsSignInForm] = useState(true)
+  const [errorMessage, setErrorMessage] = useState(null)
   const toggleSingInForm = ()=>{
     setIsSignInForm(!isSignInform)
   }
@@ -10,7 +12,9 @@ export const Login = () => {
   const emailVal = useRef(null)
   const passVal = useRef(null)
   const submitForm = ()=>{
-console.log(emailVal,passVal);
+    
+    const message = ValidateForm(emailVal.current.value,passVal.current.value)    
+    setErrorMessage(message)
 
   }
   return (
@@ -25,6 +29,7 @@ console.log(emailVal,passVal);
 
         <input type='text' placeholder='Email Address' className='p-4 my-4 w-full bg-gray-700' ref={emailVal}></input>
         <input type='password' placeholder='Password' className='p-4 my-4 w-full bg-gray-700' ref={passVal}></input>
+        <p className='text-red-600 text-lg py-4'>{errorMessage}</p>
         <button className='p-4 my-4 bg-red-600 w-full rounded-lg'  onClick={submitForm}>{isSignInform?"Sign In":"Sing Up"}</button>
 
         <p className='py-4 cursor-pointer' onClick={toggleSingInForm}>{isSignInform?"New to netflix? sing up know":"Already register sign in know"}</p>
