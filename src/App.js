@@ -1,9 +1,13 @@
 import './App.css';
 import { Body } from './components/Body';
+import appStore from './utils/appStroe';
+import { Provider } from 'react-redux';
 
 function App() {
   return (
-   <Body></Body>
+    <Provider store={appStore}>
+      <Body></Body>
+    </Provider>
   );
 }
 
