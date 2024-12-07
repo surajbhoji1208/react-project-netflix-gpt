@@ -1,8 +1,11 @@
 import {React, useRef, useState } from 'react'
 import { Header } from './Header'
 import { ValidateForm } from '../utils/Validation'
-import { createUserWithEmailAndPassword ,signInWithEmailAndPassword} from "firebase/auth";
+import { createUserWithEmailAndPassword ,signInWithEmailAndPassword, updateProfile} from "firebase/auth";
 import {auth} from '../utils/firebase'
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addUser } from "../utils/userSlice";
 
 
 export const Login = () => {
@@ -14,6 +17,10 @@ export const Login = () => {
   //validating form 
   const emailVal = useRef(null)
   const passVal = useRef(null)
+  const nameVal = useRef(null)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
   const submitForm = () => {
 
     const message = ValidateForm(emailVal.current.value, passVal.current.value)
@@ -27,8 +34,20 @@ export const Login = () => {
         .then((userCredential) => {
           // Signed up 
           const user = userCredential.user;
-          console.log("sign up user=>",user);
-          
+          updateProfile(user, {
+            displayName: nameVal.current.value,
+          })
+            .then(() => {
+              const { uid, email, displayName } = auth.currentUser;
+              dispatch(
+                addUser({ uid: uid, email: email, displayName: displayName })
+              );
+
+              navigate("/browse");
+            })
+            .catch((error) => {
+              setErrorMessage(error);
+            });
           // ...
         })
         .catch((error) => {
@@ -45,7 +64,7 @@ export const Login = () => {
           // Signed in 
           const user = userCredential.user;
           console.log("signed in user=>",user);
-          
+          navigate('/browse')
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -63,7 +82,7 @@ export const Login = () => {
       </div>
       <form className='w-3/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0 text-white rounded-lg bg-opacity-80' onSubmit={e => e.preventDefault()}>
         <h1 className='font-bold text-3xl py-4'>{isSignInform?"Sign In":"Sing Up"}</h1>
-        {!isSignInform &&(<input type='text' placeholder='Full Name' className='p-4 my-4 w-full bg-gray-700'></input>)}
+        {!isSignInform &&(<input type='text' placeholder='Full Name' className='p-4 my-4 w-full bg-gray-700' ref={nameVal}></input>)}
 
         <input type='text' placeholder='Email Address' className='p-4 my-4 w-full bg-gray-700' ref={emailVal}></input>
         <input type='password' placeholder='Password' className='p-4 my-4 w-full bg-gray-700' ref={passVal}></input>
