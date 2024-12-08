@@ -7,10 +7,10 @@ function VideoBackground({movieId}) {
 
   useMovieTrailer(movieId)
   return (
-    <div>
+    <div className='w-screen'>
       <iframe
-        src={"https://www.youtube.com/embed/FKBN1qAzW3s"+trailerVideo?.key}
-        title="YouTube video player"
+      className='w-screen aspect-video'
+        src={`https://www.youtube.com/embed/${trailerVideo?.key}?autoplay=1&mute=1`}
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       ></iframe>
     </div>
