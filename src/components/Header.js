@@ -13,6 +13,7 @@ export const Header = () => {
    const dispatch = useDispatch()
 
    const user = useSelector((store)=>store.user)
+   const toggleButton = useSelector((store)=>store.gptSearch.showGptSearch)
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
@@ -57,7 +58,7 @@ export const Header = () => {
       {user && (
         <div className="flex p-2 mr-9">
           <button className='py-2 px-4  mx-4 my-2 bg-purple-800 text-white rounded-lg' onClick={handleGptSearch}>
-            GPT Search
+           {toggleButton?"Homepage": "  "}
           </button>
           <button
             className="h-10 w-20 font-bold rounded-2xl  bg-slate-400"
