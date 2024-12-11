@@ -3,7 +3,7 @@ export const API_OPTION = {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMjlkNWRjYmM5ZTIzMTdmMDdkNTc4YjdjMmMwN2Q2ZSIsIm5iZiI6MTczMzU5MTQ2Ny40Mywic3ViIjoiNjc1NDgxYWI4MDJiYWQxNjA5MWFlMDlkIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.xCj2kLLtY7r0Ow4I3sUosmpRqS1Fw__ivMH5QEp_0mQ'
+      Authorization: 'Bearer '+process.env.REACT_APP_IMDB_KEY
     }
   };
 
