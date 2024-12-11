@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import openai from "../utils/Openai";
 import { API_OPTION } from "../utils/constants";
-import {  } from "rect-redux";
 import { useDispatch } from "react-redux";
+import {addGptSearchMovies} from '../utils/gptSlice'
 
 export const GptSearchBar = () => {
   const useInputRed = useRef()
