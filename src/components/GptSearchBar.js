@@ -1,9 +1,12 @@
 import React, { useRef } from "react";
 import openai from "../utils/Openai";
 import { API_OPTION } from "../utils/constants";
+import {  } from "rect-redux";
+import { useDispatch } from "react-redux";
 
 export const GptSearchBar = () => {
   const useInputRed = useRef()
+  const dispatch = useDispatch()
   const handleGptSearch = async ()=>
   {
     const query = 'Act as a movie renomination system and suggest some movie based on the query: '+useInputRed.current.value + " Only give me 5 movie as a result like the example result given ahead. eg res: Gadar,Race2,Animal,Don2,DR.Doom"
@@ -17,7 +20,9 @@ export const GptSearchBar = () => {
     if(!completion.choices){return "No result found"}
     const getMovies = completion.choices[0].message?.content.split(',')
     
-    const data  = getMovies.map((movie)=>searchMovies(movie))
+    const data1  = getMovies.map((movie)=>searchMovies(movie))
+    const tmdbResult = await Promise.all(data1)
+    dispatch(addGptSearchMovies({movieNames:getMovies,movieResult:tmdbResult}))
   }
 
   const searchMovies = async(movie)=>{
